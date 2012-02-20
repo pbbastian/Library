@@ -9,11 +9,13 @@ public class LibraryApp {
     private List<Book> books;
     private List<User> users;
     private DateServer dateServer;
+    private EmailServer emailServer;
 
     public LibraryApp() {
         books = new ArrayList<Book>();
         users = new ArrayList<User>();
         dateServer = new DateServer();
+        emailServer = new EmailServer();
     }
     
     public boolean adminLoggedIn() {
@@ -106,5 +108,23 @@ public class LibraryApp {
 
     public void setDateServer(DateServer dateServer) {
         this.dateServer = dateServer;
+    }
+
+    public void sendEmailReminder() {
+        for (User user : users) {
+            List<Book> overdueBooks = new ArrayList<Book>();
+            for (Book book : user.getBorrowedBooks()) {
+                if (book.isOverdue()) {
+                    overdueBooks.add(book);
+                }
+            }
+            if (overdueBooks.size() > 0) {
+                emailServer.send(user.getEmail(), "Overdue book(s)", String.format("You have %d overdue books", overdueBooks.size()));
+            }
+        }
+    }
+
+    public void setEmailServer(EmailServer emailServer) {
+        this.emailServer = emailServer;
     }
 }
