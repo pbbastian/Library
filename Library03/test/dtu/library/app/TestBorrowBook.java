@@ -1,14 +1,10 @@
 package dtu.library.app;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Test;
 
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 /**
@@ -41,17 +37,17 @@ public class TestBorrowBook extends SampleDataSetup {
 		
 		// Step 2)
 		String signature = "Som001";
-		Book book = libApp.bookBySignature(signature);
+		Medium book = libApp.mediumBySignature(signature);
 		assertEquals(signature,book.getSignature());
 		
 		// Check that the user has not borrowed the book already
-		List<Book> borrowedBooks = user.getBorrowedBooks();
+		List<Medium> borrowedBooks = user.getBorrowedMedia();
 		int n = borrowedBooks.size();
 		assertFalse(borrowedBooks.contains(book));
 		
 		// Step 3)
-		user.borrowBook(book);
-		borrowedBooks = user.getBorrowedBooks();
+		user.borrowMedium(book);
+		borrowedBooks = user.getBorrowedMedia();
 
 		// Step 4)
 		assertEquals(1,borrowedBooks.size());
@@ -80,23 +76,23 @@ public class TestBorrowBook extends SampleDataSetup {
 		
 		// Step 2
 		for (int i = 1; i <= 10; i++) {
-			Book book = libApp.bookBySignature("book"+i);
-			user.borrowBook(book);
+			Medium book = libApp.mediumBySignature("book" + i);
+			user.borrowMedium(book);
 		}
 
-		List<Book> borrowedBooks = user.getBorrowedBooks();
+		List<Medium> borrowedBooks = user.getBorrowedMedia();
 		assertEquals(10,borrowedBooks.size());
 
 		// Step 3
 		String signature = "Som001";
-		Book book = libApp.bookBySignature(signature);
+		Medium book = libApp.mediumBySignature(signature);
 		assertEquals(signature,book.getSignature());
 
 		// Check that the book is not already borrowed
 		assertFalse(borrowedBooks.contains(book));
 
 		try {
-			user.borrowBook(book);
+			user.borrowMedium(book);
 			fail("A TooManyBooksException should have been thrown");
 		} catch ( TooManyBooksException e) {
 			// Step 4
@@ -104,7 +100,7 @@ public class TestBorrowBook extends SampleDataSetup {
 		}
 
 		// Check that the number of borrowed books by the user hasn't changed.
-		borrowedBooks = user.getBorrowedBooks();
+		borrowedBooks = user.getBorrowedMedia();
 		assertEquals(10,borrowedBooks.size());
 		assertFalse(borrowedBooks.contains(book));
 	}
@@ -125,18 +121,18 @@ public class TestBorrowBook extends SampleDataSetup {
 		User user = libApp.userByCprNumber(cprNumber);
 		assertEquals(cprNumber,user.getCprNumber());
 		
-		Book book = null;
+		Medium book = null;
 		assertNull(book);
 		
 		// Check that the user hasn't borrowed anything
-		List<Book> borrowedBooks = user.getBorrowedBooks();
+		List<Medium> borrowedBooks = user.getBorrowedMedia();
 		assertEquals(0,borrowedBooks.size());
 		
 		// Step 2
-		user.borrowBook(book);
+		user.borrowMedium(book);
 		
 		// Step 3
-		borrowedBooks = user.getBorrowedBooks();
+		borrowedBooks = user.getBorrowedMedia();
 		assertEquals(0,borrowedBooks.size());
 	}
 

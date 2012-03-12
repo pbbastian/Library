@@ -19,7 +19,7 @@ public class TestSearchBook extends SampleDataSetup {
 	 */
 	@Test
 	public void testSearchBooksTitle() {
-		List<Book> books = libApp.search("Ian");
+		List<Medium> books = libApp.search("Ian");
 		assertEquals(1,books.size());
 		assertEquals("Software Engineering - 9",books.get(0).getTitle());
 	}
@@ -32,7 +32,7 @@ public class TestSearchBook extends SampleDataSetup {
 	 */
 	@Test
 	public void testSearchBooksTitleAuthor() {
-		List<Book> books = libApp.search("Software");
+		List<Medium> books = libApp.search("Software");
 		assertEquals(2,books.size());
 	}
 
@@ -44,7 +44,7 @@ public class TestSearchBook extends SampleDataSetup {
 	 */
 	@Test
 	public void testSearchBooksSignature() {
-		List<Book> books = libApp.search("Som001");
+		List<Medium> books = libApp.search("Som001");
 		assertEquals(1,books.size());
 		assertEquals("Som001",books.get(0).getSignature());
 	}
@@ -55,7 +55,7 @@ public class TestSearchBook extends SampleDataSetup {
 	 */
 	@Test
 	public void testSearchBooksNothingFound() {
-		List<Book> books = libApp.search("Jan");
+		List<Medium> books = libApp.search("Jan");
 		assertEquals(0,books.size());
 	}
 }

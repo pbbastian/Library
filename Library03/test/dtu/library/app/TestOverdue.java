@@ -50,9 +50,9 @@ public class TestOverdue extends SampleDataSetup {
 		User user = libApp.userByCprNumber(cprNumber);
 
 		String signature = "Som001";
-		Book book = libApp.bookBySignature(signature);
+		Medium book = libApp.mediumBySignature(signature);
 
-		user.borrowBook(book);
+		user.borrowMedium(book);
 
 		// Step 4
 		Calendar newCal = new GregorianCalendar();
@@ -91,9 +91,9 @@ public class TestOverdue extends SampleDataSetup {
 		User user = libApp.userByCprNumber(cprNumber);
 
 		String signature = "Som001";
-		Book book = libApp.bookBySignature(signature);
+		Medium book = libApp.mediumBySignature(signature);
 
-		user.borrowBook(book);
+		user.borrowMedium(book);
 
 		Calendar newCal = new GregorianCalendar();
 		newCal.setTime(cal.getTime());
@@ -135,9 +135,9 @@ public class TestOverdue extends SampleDataSetup {
 			User user = libApp.userByCprNumber(cprNumber);
 
 			String signature = "Som001";
-			Book book = libApp.bookBySignature(signature);
+			Medium book = libApp.mediumBySignature(signature);
 
-			user.borrowBook(book);
+			user.borrowMedium(book);
 
 			// Step 2
 			Calendar newCal = new GregorianCalendar();
@@ -149,15 +149,15 @@ public class TestOverdue extends SampleDataSetup {
 
 			// Step 3
 			signature = "book1";
-			book = libApp.bookBySignature(signature);
+			book = libApp.mediumBySignature(signature);
 
 			try {
-				user.borrowBook(book);
+				user.borrowMedium(book);
 				fail("Should throw HasOverdueBookException");
 			} catch (HasOverdueBookException e) {
 				// Step 4
 				assertEquals("User has overdue books",e.getMessage());
-				assertFalse(user.getBorrowedBooks().contains(book));
+				assertFalse(user.getBorrowedMedia().contains(book));
 			}
 	}
 
@@ -187,9 +187,9 @@ public class TestOverdue extends SampleDataSetup {
 		User user = libApp.userByCprNumber(cprNumber);
 
 		String signature = "Som001";
-		Book book = libApp.bookBySignature(signature);
+		Medium book = libApp.mediumBySignature(signature);
 
-		user.borrowBook(book);
+		user.borrowMedium(book);
 
 		// Step 2
 		Calendar newCal = new GregorianCalendar();
@@ -201,7 +201,7 @@ public class TestOverdue extends SampleDataSetup {
 		assertTrue(book.isOverdue());
 
 		// Step 4
-		user.returnBook(book);
+		user.returnMedium(book);
 
 		// Step 5
 		assertFalse(book.isOverdue());

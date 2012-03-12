@@ -6,13 +6,13 @@ import java.util.List;
 
 public class LibraryApp {
     private boolean adminLoggedIn = false;
-    private List<Book> books;
+    private List<Medium> media;
     private List<User> users;
     private DateServer dateServer;
     private EmailServer emailServer;
 
     public LibraryApp() {
-        books = new ArrayList<Book>();
+        media = new ArrayList<Medium>();
         users = new ArrayList<User>();
         dateServer = new DateServer();
         emailServer = new EmailServer();
@@ -27,31 +27,31 @@ public class LibraryApp {
         return adminLoggedIn;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public List<Medium> getMedia() {
+        return media;
     }
 
-    public void addBook(Book book) throws OperationNotAllowedException {
+    public void addMedium(Medium medium) throws OperationNotAllowedException {
         if (!adminLoggedIn()) {
-            throw new OperationNotAllowedException("Add book operation not allowed if not admin.", "Add book");
+            throw new OperationNotAllowedException("Add medium operation not allowed if not admin.", "Add medium");
         }
-        book.setLibraryApp(this);
-        books.add(book);
+        medium.setLibraryApp(this);
+        media.add(medium);
     }
 
-    void setBooks(List<Book> books) {
-        this.books = books;
+    void setMedia(List<Medium> media) {
+        this.media = media;
     }
 
-    public List<Book> search(String keyword) {
-        List<Book> matchingBooks = new ArrayList<Book>();
-        for (Book book : books) {
-            if (book.getAuthor().contains(keyword) || book.getTitle().contains(keyword)
-                    || book.getSignature().contains(keyword)) {
-                matchingBooks.add(book);
+    public List<Medium> search(String keyword) {
+        List<Medium> matchingMedia = new ArrayList<Medium>();
+        for (Medium medium : media) {
+            if (medium.getAuthor().contains(keyword) || medium.getTitle().contains(keyword)
+                    || medium.getSignature().contains(keyword)) {
+                matchingMedia.add(medium);
             }
         }
-        return matchingBooks;
+        return matchingMedia;
     }
 
 
@@ -80,10 +80,10 @@ public class LibraryApp {
         return null;
     }
 
-    public Book bookBySignature(String signature) {
-        for (Book book : books) {
-            if (book.getSignature().equals(signature)) {
-                return book;
+    public Medium mediumBySignature(String signature) {
+        for (Medium medium : media) {
+            if (medium.getSignature().equals(signature)) {
+                return medium;
             }
         }
         return null;
@@ -96,7 +96,7 @@ public class LibraryApp {
     public void unregister(User user) throws OperationNotAllowedException {
         if (!adminLoggedIn()) {
             throw new OperationNotAllowedException("Only an admin can unregister users", "Unregister user");
-        } else if (!user.getBorrowedBooks().isEmpty()) {
+        } else if (!user.getBorrowedMedia().isEmpty()) {
             throw new OperationNotAllowedException("A user with borrowed books cannot be unregistered", "Unregister user");
         }
         users.remove(user);
@@ -112,14 +112,14 @@ public class LibraryApp {
 
     public void sendEmailReminder() {
         for (User user : users) {
-            List<Book> overdueBooks = new ArrayList<Book>();
-            for (Book book : user.getBorrowedBooks()) {
-                if (book.isOverdue()) {
-                    overdueBooks.add(book);
+            List<Medium> overdueMedia = new ArrayList<Medium>();
+            for (Medium medium : user.getBorrowedMedia()) {
+                if (medium.isOverdue()) {
+                    overdueMedia.add(medium);
                 }
             }
-            if (overdueBooks.size() > 0) {
-                emailServer.send(user.getEmail(), "Overdue book(s)", String.format("You have %d overdue books", overdueBooks.size()));
+            if (overdueMedia.size() > 0) {
+                emailServer.send(user.getEmail(), "Overdue book(s)", String.format("You have %d overdue books", overdueMedia.size()));
             }
         }
     }
@@ -127,4 +127,5 @@ public class LibraryApp {
     public void setEmailServer(EmailServer emailServer) {
         this.emailServer = emailServer;
     }
+
 }

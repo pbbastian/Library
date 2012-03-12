@@ -8,7 +8,7 @@ public class User {
     private String name;
     private String email;
     private Address address;
-    private List<Book> borrowedBooks;
+    private List<Medium> borrowedMedia;
     private LibraryApp libraryApp;
 
     public User(String cprNumber, String name, String email, Address address) {
@@ -16,7 +16,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.address = address;
-        this.borrowedBooks = new ArrayList<Book>();
+        this.borrowedMedia = new ArrayList<Medium>();
     }
 
     public String getCprNumber() {
@@ -35,39 +35,49 @@ public class User {
         return address;
     }
 
-    public List<Book> getBorrowedBooks() {
-        return borrowedBooks;
+    public List<Medium> getBorrowedMedia() {
+        return borrowedMedia;
     }
 
-    public void borrowBook(Book book) throws TooManyBooksException, HasOverdueBookException {
-        if (book == null) {
+    public void borrowMedium(Medium medium) throws TooManyBooksException, HasOverdueBookException {
+        if (medium == null) {
             return;
         }
-        if (borrowedBooks.size() == 10) {
+        if (borrowedMedia.size() == 10) {
             throw new TooManyBooksException("Can't borrow more than 10 books");
         }
-        if (hasOverdueBooks()) {
+        if (hasOverdueMedia()) {
             throw new HasOverdueBookException("User has overdue books");
         }
-        book.setBorrowed(libraryApp.getDate());
-        borrowedBooks.add(book);
+        medium.markAsBorrowed(libraryApp.getDate());
+        borrowedMedia.add(medium);
     }
 
-    public void returnBook(Book book) {
-        borrowedBooks.remove(book);
-        book.setReturned();
+    public void returnMedium(Medium medium) {
+        borrowedMedia.remove(medium);
+        medium.markAsReturned();
     }
 
     public void setLibraryApp(LibraryApp libraryApp) {
         this.libraryApp = libraryApp;
     }
     
-    boolean hasOverdueBooks() {
-        for (Book borrowedBook : borrowedBooks) {
-            if (borrowedBook.isOverdue()) {
+    boolean hasOverdueMedia() {
+        for (Medium borrowedMedium : borrowedMedia) {
+            if (borrowedMedium.isOverdue()) {
                 return true;
             }
         }
         return false;
+    }
+
+    public int getFine() {
+        int fine = 0;
+        for (Medium borrowedMedium : borrowedMedia) {
+            if (borrowedMedium.isOverdue()) {
+                fine += borrowedMedium.getFine();
+            }
+        }
+        return fine;
     }
 }

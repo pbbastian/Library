@@ -1,12 +1,10 @@
 package dtu.library.app;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Contains tests for returning books, after they have been borrowed.
@@ -32,19 +30,19 @@ public class TestReturnBook extends SampleDataSetup {
 		String cprNumber = "1234651234";
 		User user = libApp.userByCprNumber(cprNumber);
 		String signature = "Som001";
-		Book book = libApp.bookBySignature(signature);
+		Medium book = libApp.mediumBySignature(signature);
 
 		// Step 2
-		user.borrowBook(book);
+		user.borrowMedium(book);
 		
 		// Step 3
-		List<Book> borrowedBooks = user.getBorrowedBooks();
+		List<Medium> borrowedBooks = user.getBorrowedMedia();
 		assertEquals(1,borrowedBooks.size());
 		assertTrue(borrowedBooks.contains(book));
 		
 		// Step 4
-		user.returnBook(book);
-		borrowedBooks = user.getBorrowedBooks();
+		user.returnMedium(book);
+		borrowedBooks = user.getBorrowedMedia();
 		
 		// Step 5
 		assertEquals(0,borrowedBooks.size());

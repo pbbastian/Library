@@ -49,11 +49,11 @@ public class TestUnregisterUser {
 
         Address address = new Address("Kirkevej",2344,"Herlev");
         User user = new User("1234651234","User 1","user1@library.dk",address);
-        Book book = new Book("Som001","Software Engineering - 9","Ian Sommerville");
+        Medium book = new Book("Som001","Software Engineering - 9","Ian Sommerville");
         
         libraryApp.register(user);
-        libraryApp.addBook(book);
-        user.borrowBook(book);
+        libraryApp.addMedium(book);
+        user.borrowMedium(book);
         
         try {
             libraryApp.unregister(user);

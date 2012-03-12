@@ -26,16 +26,19 @@ public class SampleDataSetup {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		List<Book> books = new ArrayList<Book>();
-		books.add(new Book("Som001","Software Engineering - 9","Ian Sommerville"));
-		books.add(new Book("Sof001","XML for Dummies","Fred Software"));
+		List<Medium> media = new ArrayList<Medium>();
+		media.add(new Book("Som001","Software Engineering - 9","Ian Sommerville"));
+        media.add(new Book("Sof001", "XML for Dummies", "Fred Software"));
 		for (int i = 1; i <= 10; i++) {
-			books.add(new Book("book"+i,"Book "+i,"Author "+i));
+            media.add(new Book("book" + i, "Book " + i, "Author " + i));
 		}
+        for (int i = 1; i <= 10; i++) {
+            media.add(new Cd("cd" + i, "Cd " + i, "Author " + i));
+        }
 		
 		libApp.adminLogin("adminadmin");
-		for (Book book : books) {
-			libApp.addBook(book);
+		for (Medium medium : media) {
+			libApp.addMedium(medium);
 		}
 
 		List<User> users = new ArrayList<User>();
